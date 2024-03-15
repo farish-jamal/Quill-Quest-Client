@@ -48,7 +48,7 @@ function FullBlog() {
         alert("Message Already Liked, Can't Dislike now");
         setLikes(likes);
       } else {
-        setLikes(response.data.result.dislikes);
+        setLikes(response.data.result.likes);
       }
     } catch (error) {
       console.error("Error liking Blog:", error);

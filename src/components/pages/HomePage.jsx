@@ -14,16 +14,17 @@ function HomePage() {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(null);
 
   const accessToken = localStorage.getItem("accessToken");
   const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
   const handlePrevPagination = () => {
-    setPage(page - 1);
+    setPage((prevPage) => prevPage - 1);
   };
 
   const handleNextPagination = () => {
-    setPage(page + 1);
+    setPage((prevPage) => prevPage + 1);
   };
 
   const handleScrollToTop = () => {
@@ -33,6 +34,7 @@ function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setError(null);
         if (accessToken) {
           const userData = await getUserFromJwt(accessToken);
           setUser(userData);
@@ -48,6 +50,9 @@ function HomePage() {
         setProgress(100);
       } catch (error) {
         console.error("Error occurred during fetching data:", error);
+        setError(
+          "An error occurred while fetching data. Please try again later."
+        );
       }
     };
     fetchData();
@@ -59,7 +64,16 @@ function HomePage() {
       <LoadingBar color="#f11946" progress={progress} height={3} />
       <NavBar user={user} />
       {user && blogs.length ? <Badegs /> : ""}
-      {blogs.length > 0 ? (
+      {error ? (
+        <div
+          className="container d-flex align-items-center justify-content-center flex-column"
+          style={{ height: "50vh" }}
+        >
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        </div>
+      ) : blogs.length > 0 ? (
         <div className="d-flex align-items-center justify-content-center flex-wrap">
           {blogs.map((blog) => (
             <Cards
