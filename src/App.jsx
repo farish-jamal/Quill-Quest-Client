@@ -14,11 +14,9 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const accessToken = await localStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("accessToken");
       if (accessToken) setIsAuthenticated(true);
-    })();
-  }, [isAuthenticated]);
+  }, []);
 
   return (
     <BrowserRouter>

@@ -75,7 +75,7 @@ function HomePage() {
         </div>
       ) : blogs.length > 0 ? (
         <div className="d-flex align-items-center justify-content-center flex-wrap">
-          {blogs.map((blog) => (
+          {blogs.length > 0 && blogs?.map((blog) => (
             <Cards
               key={blog._id}
               bannerImage={blog.bannerImage}
